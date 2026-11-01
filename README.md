@@ -2,6 +2,14 @@
 
 A small Windows Forms library management sample built with .NET 10. The application uses a simple model and service layer with in-memory data only.
 
+## Team members
+
+| No. | Full Name | Student ID |
+| --- | --- | --- |
+| 1 | Altaseb Chernet | `DBU1601522` |
+| 2 | Mahlet Alemu | `DBU1601323` |
+| 3 | Eset Awlachew | `DBU1601057` |
+
 ## Run
 
 1. Open `LibraryManagementSystem.slnx` in Visual Studio 2026.

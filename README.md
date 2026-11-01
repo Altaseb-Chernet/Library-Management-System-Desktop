@@ -1,34 +1,46 @@
-# Library Management System – Phase 1 (Desktop Application)
+# Library Management System
 
-C# WinForms, .NET 8. Event-driven UI with data kept **in memory only** (no database yet).
+A small Windows Forms library management sample built with .NET 10. The application uses a simple model and service layer with in-memory data only.
 
 ## Run
-1. Install Visual Studio 2022 with the ".NET desktop development" workload (or the .NET 8 SDK on Windows).
-2. Open `LibraryApp.csproj` in Visual Studio and press **F5**.
-   Or from a terminal on Windows: `dotnet run`
 
-Demo logins: `admin / admin123` and `librarian / lib123`.
-Sample books, members and loans are loaded at start so every screen has data.
+1. Open `LibraryManagementSystem.slnx` in Visual Studio 2026.
+2. Build and run the `LibraryManagementSystem` project.
+3. Sign in with one of the demo accounts below.
 
-## Phase 1 requirements → where they are
+## Demo accounts
 
-| Requirement | Where |
-| --- | --- |
-| Event-driven UI (buttons, forms, navigation) | `Forms/` – every action is a Click / TextChanged / SelectedIndexChanged / KeyPress handler; `MainForm` menu, toolbar and shortcuts (Ctrl+B, Ctrl+M, Ctrl+I, Ctrl+R) |
-| Validation | `BooksForm`, `MembersForm`, `LoginForm` – ErrorProvider icons, required fields, ISBN / email / phone checks, digits-only ISBN box |
-| Local memory storage | `Services/LibraryService.cs` – `List<Book>`, `List<Member>`, `List<Loan>` |
-| Basic business logic | `LibraryService` – max 3 loans, 14-day loan, 1 renewal, 2 Birr/day fine, no issue with overdue books or unpaid fines, no delete when active loans |
-| Clean UI and structure | `Models/`, `Services/`, `Forms/` separation; shared look in `Forms/Ui.cs` |
-| Multi-form navigation, ListView, search/filter, edit/delete, menu/toolbar, status messages, simple report | Login → Main → Home / Books / Members / Issue-Return / Reports |
+| Role | Username | Password |
+| --- | --- | --- |
+| Administrator | `admin` | `admin123` |
+| Librarian | `librarian` | `library123` |
 
-## Structure
-```
-Program.cs              entry point (login loop)
-Models/Models.cs        Book, Member, Loan, AppUser, Result
-Services/LibraryService in-memory data + business rules (replaced by API calls in Phase 2)
-Forms/                  LoginForm, MainForm, HomeForm, BooksForm, MembersForm,
-                        IssueReturnForm, ReportsForm, Ui (helpers + ChildForm base)
-```
+## Responsibilities
 
-## Phase 2 note
-Forms only talk to `LibraryService`. In Phase 2 keep the same method names and change their bodies to call the REST API, so the screens do not need to change.
+- **Librarian**: manage books and members, and issue or return books.
+- **Administrator**: all librarian actions plus staff account management and reports.
+
+Books, members, and staff pages use simple Add, Edit, and Delete controls. Select a row to edit or delete it.
+
+## Loan workflow
+
+1. Open `Issue / Return`.
+2. Select a member and an available book.
+3. Click `Issue book`.
+4. Select the loan in the history grid and click `Return selected` when it is returned.
+
+A book with an active loan cannot be deleted. A member with an active loan cannot be deleted. The last administrator account cannot be deleted.
+
+## Layout
+
+The main window has navigation tabs at the top. Each page is displayed inside the `Workspace` group box, so the application stays in one window instead of opening many separate forms.
+
+## Important note
+
+Books, members, loans, and staff accounts are created in `LibraryService` when the application starts. Changes are kept in memory until the application closes. Nothing is written to a database or file.
+
+## Full system guide
+
+See [SYSTEM_GUIDE.md](SYSTEM_GUIDE.md) for a form-by-form explanation of the roles, tabs, GroupBox layout, models, service layer, and lending rules.
+
+See [UI_CONTROLS_GUIDE.md](UI_CONTROLS_GUIDE.md) for an explanation of the toolbox controls and layout properties used on each page.
